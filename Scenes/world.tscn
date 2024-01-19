@@ -1,0 +1,84 @@
+[gd_scene load_steps=14 format=3 uid="uid://d2lrp4nv4j7q1"]
+
+[ext_resource type="Texture2D" uid="uid://b30yg2vg5soi8" path="res://Assets/textures/grids/Dark/texture_01.png" id="1_xryb6"]
+[ext_resource type="Texture2D" uid="uid://dj4j18d0h6k0x" path="res://Assets/textures/grids/Orange/texture_01.png" id="2_61ygc"]
+[ext_resource type="Texture2D" uid="uid://nsnuw6x4oa6n" path="res://Assets/textures/grids/Green/texture_01.png" id="3_gn3eu"]
+[ext_resource type="PackedScene" uid="uid://c78hnoogiu500" path="res://Scenes/player.tscn" id="4_8xj08"]
+[ext_resource type="Texture2D" uid="uid://rh2uoevme3eo" path="res://Assets/textures/grids/Purple/texture_01.png" id="4_pb48l"]
+[ext_resource type="Texture2D" uid="uid://cs4nl0ksxtskc" path="res://Assets/textures/grids/Red/texture_01.png" id="5_phrau"]
+[ext_resource type="Script" path="res://Scripts/camera_pivot.gd" id="7_8wucg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijdqg"]
+albedo_texture = ExtResource("1_xryb6")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kvak3"]
+albedo_texture = ExtResource("2_61ygc")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qy2cr"]
+albedo_texture = ExtResource("3_gn3eu")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1kdn3"]
+albedo_texture = ExtResource("4_pb48l")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbw2j"]
+albedo_texture = ExtResource("5_phrau")
+uv1_triplanar = true
+
+[sub_resource type="Environment" id="Environment_jowu0"]
+background_mode = 1
+background_color = Color(0.662745, 0.913725, 1, 1)
+background_energy_multiplier = 0.5
+fog_enabled = true
+fog_density = 0.0001
+
+[node name="World" type="Node3D"]
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.170288, 0.352318, 0.180389)
+material_override = SubResource("StandardMaterial3D_ijdqg")
+use_collision = true
+size = Vector3(1000, 1, 1000)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35597, 0)
+material_override = SubResource("StandardMaterial3D_kvak3")
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1.86932, 0, 1.39243, 0, 2.33092, 0, -1.39243, 0, 1.86932, -3.24991, 2.05597, 8.68478)
+material_override = SubResource("StandardMaterial3D_qy2cr")
+use_collision = true
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(2.3084, 0, -0.323234, 0, 2.33092, 0, 0.323234, 0, 2.3084, -17.4099, 2.05597, 3.48713)
+material_override = SubResource("StandardMaterial3D_1kdn3")
+use_collision = true
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1.53465, 0, 1.75444, 0, 2.33092, 0, -1.75444, 0, 1.53465, -3.24991, 2.03281, -7.14851)
+material_override = SubResource("StandardMaterial3D_bbw2j")
+use_collision = true
+
+[node name="Player" parent="." instance=ExtResource("4_8xj08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.964774, 0.263082, 0, -0.263082, 0.964774, -2.96687, 13, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jowu0")
+
+[node name="camera_pivot" type="Node3D" parent="." groups=["camera_pivot"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.95195, 1.14522, 0)
+script = ExtResource("7_8wucg")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="camera_pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9937, 0.112076, 0, -0.112076, 0.9937, 0, 3.96372, 1.06974)
+spring_length = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="camera_pivot/SpringArm3D"]
